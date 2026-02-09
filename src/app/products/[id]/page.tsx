@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
 import { api } from "@/lib/api";
 import { Product } from "@/types/product";
+import AddToCart from "@/component/AddToCart";
 
 interface PageProps {
   params: Promise<{
@@ -61,9 +61,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </p>
 
                 <div className="mt-8 flex gap-3">
-                  <button className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white">
-                    Add to Cart
-                  </button>
+                  <AddToCart product={product} withQty />
 
                   <Link
                     href="/"

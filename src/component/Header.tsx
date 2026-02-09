@@ -1,7 +1,12 @@
+"use client";
+
 // src/components/Header.tsx
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
+  const { totalItems } = useCart();
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -16,6 +21,7 @@ export default function Header() {
             FAQ
           </Link>
 
+          {/* Login masih dummy (nanti diganti Link /login) */}
           <button
             type="button"
             className="cursor-not-allowed opacity-60"
@@ -24,16 +30,17 @@ export default function Header() {
             Login
           </button>
 
-          <button
-            type="button"
-            className="relative cursor-not-allowed opacity-60"
-            title="Cart (dummy)"
+          {/* Cart REAL */}
+          <Link
+            href="/cart"
+            className="relative hover:text-blue-600"
+            title="Cart"
           >
             Cart
-            <span className="absolute -top-2 -right-3 rounded-full bg-gray-300 px-1.5 text-xs text-white">
-              0
+            <span className="absolute -top-2 -right-3 rounded-full bg-gray-900 px-1.5 text-xs text-white">
+              {totalItems}
             </span>
-          </button>
+          </Link>
         </nav>
       </div>
     </header>
