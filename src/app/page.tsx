@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
-import ProductGrid from "@/component/ProductGrid";
-import ProductCard from "@/component/ProductCard";
+import { api } from "@/lib/api";
+import ProductGrid from "@/components/ProductGrid";
+import ProductCard from "@/components/ProductCard";
 import { Product } from "@/types/product";
 
 export default function ProductsPage() {
@@ -19,13 +19,9 @@ export default function ProductsPage() {
         setLoading(true);
         setError(null);
 
-        const res = await axios.get<Product[]>(
-          "https://api.escuelajs.co/api/v1/products",
-          {
-            params: { offset: 0, limit: 12 },
-            timeout: 10000,
-          }
-        );
+        const res = await api.get<Product[]>("/products", {
+          params: { offset: 0, limit: 24 },
+        });
 
         if (alive) setProducts(res.data);
       } catch (err) {
@@ -44,7 +40,7 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-600">
+      <div className=" flex items-center justify-center text-gray-600">
         Loading products...
       </div>
     );
@@ -52,14 +48,14 @@ export default function ProductsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-600">
+      <div className="flex items-center justify-center text-red-600">
         {error}
       </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-gray-50">
+    <section className=" bg-gray-50">
       {/* Page header */}
       <header className="border-b bg-white">
         <div className="mx-auto max-w-7xl px-6 py-10">

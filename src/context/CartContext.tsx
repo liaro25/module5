@@ -45,7 +45,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return action.payload;
 
     case "ADD_ITEM": {
-      const qtyToAdd = action.payload.quantity ?? 1;
+      const qtyToAdd = Math.max(1, action.payload.quantity ?? 1);
       const next = [...state.items];
       const idx = next.findIndex((it) => it.id === action.payload.product.id);
 

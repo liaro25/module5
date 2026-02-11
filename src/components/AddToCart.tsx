@@ -13,7 +13,7 @@ export default function AddToCart({ product, withQty = false }: Props) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
-  // 👉 HOME PAGE (simple button)
+  // HOME PAGE (simple button)
   if (!withQty) {
     return (
       <button
@@ -26,7 +26,7 @@ export default function AddToCart({ product, withQty = false }: Props) {
     );
   }
 
-  // 👉 PRODUCT DETAIL (with quantity)
+  // PRODUCT DETAIL (with quantity)
   return (
     <div className="flex items-center gap-3">
       <div className="flex items-center overflow-hidden rounded-xl border">

@@ -3,17 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { api } from "@/lib/api";
 import { Product } from "@/types/product";
-import AddToCart from "@/component/AddToCart";
+import AddToCart from "@/components/AddToCart";
 
 interface PageProps {
-  params: Promise<{
-    id: string;
-  }>;
+  params: { id: string };
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
-  const { id: rawId } = await params;
-  const id = Number(rawId);
+  const id = Number(params.id);
 
   if (Number.isNaN(id)) {
     return notFound();

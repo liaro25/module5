@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Product } from "@/types/product";
-import AddToCartButton from "@/component/AddToCart";
+import AddToCart from "@/components/AddToCart";
 
 interface ProductCardProps {
   product: Product;
@@ -46,7 +46,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             >
               View Detail
             </Link>
-            <AddToCartButton product={product} />
+            <AddToCart product={product} />
           </div>
         </div>
       </div>
