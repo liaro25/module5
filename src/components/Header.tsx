@@ -1,6 +1,5 @@
 "use client";
 
-// src/components/Header.tsx
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
@@ -21,16 +20,10 @@ export default function Header() {
             FAQ
           </Link>
 
-          {/* Login masih dummy (nanti diganti Link /login) */}
-          <button
-            type="button"
-            className="cursor-not-allowed opacity-60"
-            title="Login (dummy)"
-          >
+          <Link href="/login" className="hover:text-blue-600">
             Login
-          </button>
+          </Link>
 
-          {/* Cart REAL */}
           <Link
             href="/cart"
             className="relative hover:text-blue-600"

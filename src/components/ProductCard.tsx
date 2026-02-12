@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Product } from "@/types/product";
-import AddToCart from "@/components/AddToCart";
+import AddToCartButton from "@/components/AddToCart";
 
 interface ProductCardProps {
   product: Product;
@@ -32,10 +32,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
       </div>
+
       <div className="flex grow flex-col p-4">
         <h2 className="min-h-10 text-lg font-bold text-gray-900 line-clamp-2">
           {title}
         </h2>
+
         <div className="mt-auto">
           <p className="text-lg font-bold text-blue-600">{priceLabel}</p>
 
@@ -46,7 +48,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             >
               View Detail
             </Link>
-            <AddToCart product={product} />
+
+            <AddToCartButton product={product} />
           </div>
         </div>
       </div>

@@ -134,3 +134,68 @@ src
 └── types
     └── product.ts
 ```
+
+
+---
+
+## 🖼 Screenshots
+
+> _Replace the images below with actual screenshots_
+
+### Product Listing
+![Product Listing](./screenshots/home.png)
+
+### Product Detail
+![Product Detail](./screenshots/product-detail.png)
+
+### Cart Page
+![Cart Page](./screenshots/cart.png)
+
+### Checkout Page
+![Checkout Page](./screenshots/checkout.png)
+
+---
+
+## 🛠 Local Development
+
+### 1️⃣ Install dependencies
+```bash
+npm install
+npm run dev
+```
+Open: http://localhost:3000
+
+## ☁️ Deployment
+
+This project is deployed using **Vercel**:
+
+🔗 https://module5-8eoj.vercel.app/
+
+---
+
+## 📚 Documentation
+
+Complete step-by-step development notes, including:
+
+- Project initialization
+- Product rendering strategy
+- Cart state management
+- Persistence & flow decisions
+
+📘 **Notion:**  
+https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6?source=copy_link
+
+---
+
+## 🚧 Next Improvements
+
+- Authentication & middleware protection
+- Admin dashboard (CRUD with API Routes + ISR)
+- Unit testing (Jest & React Testing Library)
+- Performance optimization & caching strategies
+
+---
+
+## 📝 License
+
+This project is created for educational purposes as part of **Module 5**.
