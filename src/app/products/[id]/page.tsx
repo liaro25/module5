@@ -5,6 +5,8 @@ import { api } from "@/lib/api";
 import type { Product } from "@/types/product";
 import AddToCartButton from "@/components/AddToCart";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{
     id: string;

@@ -62,12 +62,20 @@ export default function LoginForm() {
         {pending ? "Logging in..." : "Login"}
       </button>
 
-      <div className="text-sm text-gray-600 mt-4">
-        <p>
-          <strong>Test Credentials:</strong>
-        </p>
-        <p>Email: john@mail.com</p>
-        <p>Password: changeme</p>
+      <div className="text-sm grid grid-cols-2 gap-8">
+        <div>
+          <h3 className="font-semibold mb-2">User Test Credentials</h3>
+          <p className="text-gray-300">Email: john@mail.com</p>
+          <p className="text-gray-300">Password: changeme</p>
+        </div>
+
+        <div>
+          <h3 className="font-semibold mb-2 whitespace-nowrap">
+            Admin Test Credentials
+          </h3>
+          <p className="text-gray-300"> Email: admin@mail.com</p>
+          <p className="text-gray-300">Password: admin123</p>
+        </div>
       </div>
     </form>
   );
