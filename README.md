@@ -1,38 +1,83 @@
 # RevoShop — Next.js E-Commerce (Module 5)
 
-![Vercel](https://img.shields.io/badge/deployed-Vercel-black)
-![Next.js](https://img.shields.io/badge/Next.js-App%20Router-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)
-
-🚀 **Live Demo:** https://module5-8eoj.vercel.app/  
-📘 **Development Notes (Notion):**  
-https://noto.li/NXX6yr
+**GitHub Repository:** https://github.com/Revou-FSSE-Oct25/milestone-3-liaro25
+**Live Demo:** https://module5-8eoj.vercel.app/  
+**Development Notes (Notion):** https://noto.li/NXX6yr
 
 ---
 
 ## Overview
 
-**RevoShop** is a modular e-commerce application built with **Next.js App Router**.  
-This project demonstrates a clean separation between **public pages**, **authenticated areas**, and **admin-only routes**, while implementing a scalable cart system and authentication flow.
+RevoShop implements a complete e-commerce workflow, including:
 
-This repository represents **Module 5**, focusing on authentication, middleware protection, and scalable architecture in Next.js.
+- Product listing & product detail pages
+- Shopping cart with persistence
+- Authentication & role-based access control (RBAC)
+- Admin dashboard with full CRUD functionality
+- API Routes using the App Router
+- Secure route protection using middleware
+- Dynamic rendering & server-side data fetching
+
+The main goal of this project is to showcase **modern Next.js full-stack patterns** using the App Router.
 
 ---
 
 ## Features
 
-- Public product listing & product detail pages
-- Client-side shopping cart with persistence (`localStorage`)
-- Quantity-based add-to-cart functionality
-- Cart & checkout pages
-- Authentication with session handling
-- Middleware-protected routes (`/dashboard`, `/admin`)
-- Clear separation between:
-  - Landing page
-  - Public catalog
-  - Authenticated user area
+### Product Management
+
+- Product listing page
+- Product detail page using dynamic route segments
+- Server-side data fetching
+
+### Shopping Cart
+
+- Add & remove products from cart
+- Cart state persisted using `localStorage`
+- Cart summary & checkout flow
+
+### Authentication & Authorization
+
+- Login authentication via external API
+- Session management
+- Role-based access control (Admin vs User)
+- Protected routes using Next.js Middleware
+
+### Admin Dashboard
+
+- Admin-only access
+- Full CRUD operations:
+  - Create product
+  - Read product list
+  - Update product
+  - Delete product
+- API Routes implemented using App Router route handlers
+
+### Technical Highlights
+
+- Server Components vs Client Components
+- Dynamic Route Segments (`[id]`)
+- API Route Handlers (`app/api`)
+- Server Actions
+- Middleware for route protection
+- Proper error handling & validation
+- Modular and scalable project structure
 
 ---
+
+## Concepts Demonstrated
+
+This project demonstrates the following **advanced Next.js concepts**:
+
+- App Router architecture
+- Server vs Client Components
+- Dynamic routing
+- API route handlers
+- Role-based authorization
+- State management strategies
+- Server Actions
+- Secure authentication flow
+- Error handling best practices
 
 ## Tech Stack
 
@@ -51,61 +96,149 @@ This repository represents **Module 5**, focusing on authentication, middleware 
 
 ---
 
-## Routes
+## Routes & Access Control
 
-| Route            | Access            | Description                           |
-| ---------------- | ----------------- | ------------------------------------- |
-| `/`              | Public            | Landing page (redirects if logged in) |
-| `/login`         | Public            | Login page                            |
-| `/products`      | Public            | Product listing                       |
-| `/products/[id]` | Public            | Product detail                        |
-| `/cart`          | Public            | Shopping cart                         |
-| `/checkout`      | Protected         | Checkout (authentication required)    |
-| `/dashboard`     | Protected         | User dashboard                        |
-| `/admin`         | Protected (Admin) | Admin dashboard (CRUD – WIP)          |
-| `/faq`           | Public            | FAQ page                              |
+| Route                       | Access            | Description                                               |
+| --------------------------- | ----------------- | --------------------------------------------------------- |
+| `/`                         | Public            | Landing page (redirects to `/dashboard` if authenticated) |
+| `/login`                    | Public            | Authentication page                                       |
+| `/products`                 | Public            | Product listing page                                      |
+| `/products/[id]`            | Public            | Product detail page                                       |
+| `/cart`                     | Public            | Shopping cart                                             |
+| `/checkout`                 | Protected         | Checkout page (authentication required)                   |
+| `/dashboard`                | Protected         | User dashboard                                            |
+| `/admin`                    | Protected (Admin) | Admin dashboard                                           |
+| `/admin/products`           | Protected (Admin) | Product management table                                  |
+| `/admin/products/new`       | Protected (Admin) | Create new product                                        |
+| `/admin/products/[id]/edit` | Protected (Admin) | Edit product                                              |
+| `/faq`                      | Public            | Frequently Asked Questions                                |
 
 ---
 
-## Application Architecture
+## 🏗 Application Architecture
 
 ### 1️⃣ Routing & Access Control
 
-- **Landing page (`/`)**
-  - Implemented as a Server Component
-  - Redirects authenticated users to `/dashboard`
-- **Public catalog**
-  - `/products` and `/products/[id]`
-  - Client-side data fetching
-- **Protected routes**
-  - Enforced via middleware (`proxy.ts`)
-  - Unauthorized users are redirected to `/login`
+#### Landing Page (`/`)
+
+- Implemented as a **Server Component**
+- Automatically redirects authenticated users to `/dashboard`
 
 ---
 
-### 2️⃣ Authentication Flow
+#### Public Catalog
 
-- Login handled via **Server Actions**
-- Session stored using **HTTP-only cookies**
-- Middleware checks:
-  - Authentication status
-  - Role-based access for admin routes
-- Graceful redirection for unauthorized access
+Routes:
+
+- `/products`
+- `/products/[id]`
+
+Features:
+
+- Dynamic route segments
+- Data fetched via internal API routes
+- Interactive UI components
+
+---
+
+#### Protected Routes
+
+Protected via **Next.js Middleware**:
+
+- `/checkout`
+- `/dashboard`
+- `/admin`
+- `/admin/products`
+- `/admin/products/new`
+- `/admin/products/[id]/edit`
+
+Middleware responsibilities:
+
+- Session validation
+- Redirect unauthenticated users to `/login`
+- Enforce admin role for `/admin` routes
 
 ---
 
-### 3️⃣ Cart Flow
+### 2️⃣ Authentication & Authorization Flow
 
-- Cart state managed using **React Context + useReducer**
-- Persisted in `localStorage`
-- Shared across:
-  - Product listing
-  - Product detail
-  - Cart
-  - Checkout
-- Cart remains client-side even after authentication
+- Login implemented using **Server Actions**
+- Authentication handled via external API
+- Session stored in **HTTP-only cookies**
+- Middleware validates:
+  - Authentication state
+  - Role-based access (admin)
+- `/api/me` route provides client-accessible user session info
+- Unauthorized access results in secure redirection
 
 ---
+
+### 3️⃣ Shopping Cart Flow
+
+Cart implementation:
+
+- **React Context API**
+- `useReducer` for predictable state transitions
+- Cart data persisted in **localStorage**
+
+Cart state is shared across:
+
+- Product listing page
+- Product detail page
+- Cart page
+- Checkout page
+
+Cart remains:
+
+- Fully client-side
+- Independent from authentication system
+
+---
+
+### 4️⃣ Admin CRUD Architecture
+
+Admin product management uses:
+
+#### API Routes (App Router)
+
+| Endpoint             | Method | Description                 | Access    |
+| -------------------- | ------ | --------------------------- | --------- |
+| `/api/products`      | GET    | Fetch products              | Public    |
+| `/api/products`      | POST   | Create product              | Admin     |
+| `/api/products/[id]` | GET    | Fetch single product        | Public    |
+| `/api/products/[id]` | PUT    | Update product              | Admin     |
+| `/api/products/[id]` | DELETE | Delete product              | Admin     |
+| `/api/me`            | GET    | Get authenticated user info | Protected |
+
+---
+
+#### Admin UI Flow
+
+- `/admin/products` → Server-side fetch product table
+- `/admin/products/new` → Client-side form submission (POST)
+- `/admin/products/[id]/edit` →
+  - Server-side product fetch
+  - Client-side form submission (PUT)
+
+---
+
+#### Dynamic Route Handling (Next.js 16)
+
+Handled new `params` Promise behavior:
+
+```ts
+type Ctx = { params: Promise<{ id: string }> };
+const { id } = await params;
+```
+
+#### Server-side Internal API Calls
+
+Used absolute URL for server components:
+
+```
+const baseUrl = `${protocol}://${host}`;
+fetch(`${baseUrl}/api/products`)
+```
 
 ## Project Structure
 
@@ -113,79 +246,119 @@ This repository represents **Module 5**, focusing on authentication, middleware 
 src
 ├── app
 │   ├── actions
+│   │   └── auth.ts
 │   ├── admin
+│   │   ├── page.tsx
+│   │   └── products
+│   ├── api
+│   │   ├── me
+│   │   └── products
 │   ├── cart
+│   │   └── page.tsx
 │   ├── checkout
+│   │   └── page.tsx
 │   ├── dashboard
+│   │   └── page.tsx
+│   ├── faq
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
 │   ├── login
+│   │   └── page.tsx
+│   ├── page.tsx
 │   ├── products
 │   │   ├── [id]
 │   │   └── page.tsx
-│   ├── page.tsx        # Landing page
-│   └── layout.tsx
+│   └── ui
+│       ├── login-form.tsx
+│       └── logout-button.tsx
+├── cart
+│   └── page.tsx
 ├── components
 │   ├── AddToCart.tsx
-│   ├── Header.tsx
 │   ├── Footer.tsx
+│   ├── Header.tsx
 │   ├── ProductCard.tsx
-│   └── ProductGrid.tsx
+│   ├── ProductGrid.tsx
+│   └── admin
+│       ├── ProductForm.tsx
+│       └── ProductTable.tsx
 ├── context
 │   └── CartContext.tsx
 ├── lib
 │   ├── api.ts
-│   ├── session.ts
-│   └── definitions.ts
-├── types
-│   └── product.ts
-└── proxy.ts            # Middleware logic
+│   ├── dal.ts
+│   ├── definitions.ts
+│   └── session.ts
+├── proxy.ts
+└── types
+    └── product.ts
 ```
 
-## Local Development
+## Screenshots
 
-### 1️⃣ Install dependencies
+### Homepage
 
-```
-npm install
-```
+Landing page with navigation options:
 
-### 2️⃣ Run development server
-
-```
-npm run dev
-```
+- Browse Products
+- Login
+- Redirects authenticated users to `/dashboard`
 
 ---
 
-## 📚 Documentation
+### Product Listing
 
-Detailed step-by-step development notes are documented in Notion, covering:
-
-- Project initialization
-- Routing & rendering strategies
-- Authentication & middleware flow
-- Cart state management & persistence
-- Architecture decisions
-
-📘 **Notion:**  
-https://noto.li/NXX6yr
+Displays product grid with dynamic data fetching.  
+Route: `/products`
 
 ---
 
-## 🚧 Next Improvements
+### Product Detail
 
-Planned enhancements for future iterations:
-
-- Admin dashboard with full CRUD functionality
-  - API Routes (GET / POST / PUT / DELETE)
-  - Form validation & secure access
-- Incremental Static Regeneration (ISR)
-- UI revalidation after data mutations
-- Unit testing using Jest & React Testing Library
-- Performance optimization & caching strategies
+Dynamic route using App Router.  
+Route: `/products/[id]`
 
 ---
 
-## 📝 License
+### Cart Page
 
-This project is created for educational purposes as part of  
-**RevoU Full-Stack Software Engineering – Module 5**.
+Cart state managed with Context API and persisted via localStorage.
+
+---
+
+### Login Page
+
+Authentication using API route and cookie-based session.
+
+---
+
+### Dashboard
+
+Displays authenticated user information and role-based actions.
+
+---
+
+### Admin Panel
+
+Protected via middleware and server-side role validation.
+
+---
+
+### Admin — Products (CRUD)
+
+Full CRUD implementation:
+
+- Create
+- Edit
+- Delete
+- Server-side fetching
+- Dynamic API routes
+
+---
+
+### Edit Product
+
+- Server Component fetching product data
+- Client Component form submission
