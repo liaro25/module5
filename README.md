@@ -5,197 +5,187 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)
 
 🚀 **Live Demo:** https://module5-8eoj.vercel.app/  
-📘 **Step-by-step Development (Notion):**  
-https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6?source=copy_link
+📘 **Development Notes (Notion):**  
+https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6
 
 ---
 
-## 📌 Overview
+## Overview
 
-**RevoShop** is a simple e-commerce application built with **Next.js App Router**.  
-The project focuses on **clean rendering strategies**, **reusable components**, and a **scalable cart system** designed to be extended with authentication, middleware protection, and admin features.
+**RevoShop** is a modular e-commerce application built with **Next.js App Router**.  
+This project demonstrates a clean separation between **public pages**, **authenticated areas**, and **admin-only routes**, while implementing a scalable cart system and authentication flow.
 
----
-
-## ✨ Features
-
-- Product listing & product detail pages
-- Client-side cart with persistence (`localStorage`)
-- Quantity-based add to cart
-- Cart summary & checkout (pre-auth)
-- Clean separation of rendering flows (CSR / SSR)
-- Ready for authentication & admin dashboard expansion
+This repository represents **Module 5**, focusing on authentication, middleware protection, and scalable architecture in Next.js.
 
 ---
 
-## 🧰 Tech Stack
+## Features
 
-| Category           | Technology                 |
-| ------------------ | -------------------------- |
-| Framework          | Next.js (App Router)       |
-| Language           | TypeScript                 |
-| Styling            | Tailwind CSS               |
-| State Management   | React Context + useReducer |
-| Data Fetching      | Axios                      |
-| Image Optimization | Next.js `Image`            |
-| Persistence        | localStorage               |
-| Deployment         | Vercel                     |
-| API                | Platzi Fake Store API      |
-
----
-
-## 🗺 Routes
-
-| Route            | Description            |
-| ---------------- | ---------------------- |
-| `/`              | Product listing (Home) |
-| `/products/[id]` | Product detail         |
-| `/cart`          | Shopping cart          |
-| `/checkout`      | Checkout (pre-auth)    |
-| `/faq`           | FAQ page               |
+- Public product listing & product detail pages
+- Client-side shopping cart with persistence (`localStorage`)
+- Quantity-based add-to-cart functionality
+- Cart & checkout pages
+- Authentication with session handling
+- Middleware-protected routes (`/dashboard`, `/admin`)
+- Clear separation between:
+  - Landing page
+  - Public catalog
+  - Authenticated user area
 
 ---
 
-## 🧠 Application Flows
+## Tech Stack
 
-### 1️⃣ Product Rendering Flow
-
-**Home / Product Listing**
-
-- Rendering: **Client-Side Rendering (CSR)**
-- Data fetched in the browser using `useEffect`
-- Loading state visible while fetching
-- Optimized for filters, pagination, and interaction
-
-**Product Detail Page**
-
-- Rendering: **Server-Side Rendering (SSR)**
-- Data fetched on the server before HTML is sent
-- No visible loading on initial render
-- SEO-friendly and shareable URLs
+| Category         | Technology                      |
+| ---------------- | ------------------------------- |
+| Framework        | Next.js (App Router)            |
+| Language         | TypeScript                      |
+| Styling          | Tailwind CSS                    |
+| State Management | React Context + useReducer      |
+| Data Fetching    | Axios                           |
+| Authentication   | Server Actions + Cookie Session |
+| Middleware       | Next.js Middleware              |
+| Persistence      | localStorage + cookies          |
+| Deployment       | Vercel                          |
+| External API     | Platzi Fake Store API           |
 
 ---
 
-### 2️⃣ Cart Flow
+## Routes
 
-- Cart state managed via **React Context + useReducer**
-- Global provider mounted at root layout
-- Supported actions:
-  - Add item
-  - Remove item
-  - Update quantity
-  - Clear cart
-- Cart state:
-  - Hydrated from `localStorage` on app load
-  - Persisted on every update
+| Route            | Access            | Description                           |
+| ---------------- | ----------------- | ------------------------------------- |
+| `/`              | Public            | Landing page (redirects if logged in) |
+| `/login`         | Public            | Login page                            |
+| `/products`      | Public            | Product listing                       |
+| `/products/[id]` | Public            | Product detail                        |
+| `/cart`          | Public            | Shopping cart                         |
+| `/checkout`      | Protected         | Checkout (authentication required)    |
+| `/dashboard`     | Protected         | User dashboard                        |
+| `/admin`         | Protected (Admin) | Admin dashboard (CRUD – WIP)          |
+| `/faq`           | Public            | FAQ page                              |
+
+---
+
+## Application Architecture
+
+### 1️⃣ Routing & Access Control
+
+- **Landing page (`/`)**
+  - Implemented as a Server Component
+  - Redirects authenticated users to `/dashboard`
+- **Public catalog**
+  - `/products` and `/products/[id]`
+  - Client-side data fetching
+- **Protected routes**
+  - Enforced via middleware (`proxy.ts`)
+  - Unauthorized users are redirected to `/login`
+
+---
+
+### 2️⃣ Authentication Flow
+
+- Login handled via **Server Actions**
+- Session stored using **HTTP-only cookies**
+- Middleware checks:
+  - Authentication status
+  - Role-based access for admin routes
+- Graceful redirection for unauthorized access
+
+---
+
+### 3️⃣ Cart Flow
+
+- Cart state managed using **React Context + useReducer**
+- Persisted in `localStorage`
 - Shared across:
-  - Home
-  - Product Detail
+  - Product listing
+  - Product detail
   - Cart
   - Checkout
+- Cart remains client-side even after authentication
 
 ---
 
-### 3️⃣ Authentication Flow (Planned)
+## Project Structure
 
-- Checkout route will be protected via **middleware**
-- Authentication required before placing orders
-- Cart state will remain client-side, but checkout access will be restricted
-- Admin dashboard planned for product CRUD (API Routes + ISR)
-
----
-
-## 🧱 Project Structure
-
-```
+```txt
 src
 ├── app
+│   ├── actions
+│   ├── admin
 │   ├── cart
-│   │   └── page.tsx
 │   ├── checkout
+│   ├── dashboard
+│   ├── login
+│   ├── products
+│   │   ├── [id]
 │   │   └── page.tsx
-│   ├── faq
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── products
-│       └── [id]
-│           └── page.tsx
-├── component
+│   ├── page.tsx        # Landing page
+│   └── layout.tsx
+├── components
 │   ├── AddToCart.tsx
-│   ├── Footer.tsx
 │   ├── Header.tsx
+│   ├── Footer.tsx
 │   ├── ProductCard.tsx
 │   └── ProductGrid.tsx
 ├── context
 │   └── CartContext.tsx
 ├── lib
-│   └── api.ts
-└── types
-    └── product.ts
+│   ├── api.ts
+│   ├── session.ts
+│   └── definitions.ts
+├── types
+│   └── product.ts
+└── proxy.ts            # Middleware logic
 ```
 
-
----
-
-## 🖼 Screenshots
-
-> _Replace the images below with actual screenshots_
-
-### Product Listing
-![Product Listing](./screenshots/home.png)
-
-### Product Detail
-![Product Detail](./screenshots/product-detail.png)
-
-### Cart Page
-![Cart Page](./screenshots/cart.png)
-
-### Checkout Page
-![Checkout Page](./screenshots/checkout.png)
-
----
-
-## 🛠 Local Development
+## Local Development
 
 ### 1️⃣ Install dependencies
-```bash
+
+```
 npm install
+```
+
+### 2️⃣ Run development server
+
+```
 npm run dev
 ```
-Open: http://localhost:3000
-
-## ☁️ Deployment
-
-This project is deployed using **Vercel**:
-
-🔗 https://module5-8eoj.vercel.app/
 
 ---
 
 ## 📚 Documentation
 
-Complete step-by-step development notes, including:
+Detailed step-by-step development notes are documented in Notion, covering:
 
 - Project initialization
-- Product rendering strategy
-- Cart state management
-- Persistence & flow decisions
+- Routing & rendering strategies
+- Authentication & middleware flow
+- Cart state management & persistence
+- Architecture decisions
 
 📘 **Notion:**  
-https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6?source=copy_link
+https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6
 
 ---
 
 ## 🚧 Next Improvements
 
-- Authentication & middleware protection
-- Admin dashboard (CRUD with API Routes + ISR)
-- Unit testing (Jest & React Testing Library)
+Planned enhancements for future iterations:
+
+- Admin dashboard with full CRUD functionality
+  - API Routes (GET / POST / PUT / DELETE)
+  - Form validation & secure access
+- Incremental Static Regeneration (ISR)
+- UI revalidation after data mutations
+- Unit testing using Jest & React Testing Library
 - Performance optimization & caching strategies
 
 ---
 
 ## 📝 License
 
-This project is created for educational purposes as part of **Module 5**.
+This project is created for educational purposes as part of  
+**RevoU Full-Stack Software Engineering – Module 5**.
