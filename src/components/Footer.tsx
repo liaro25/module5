@@ -7,7 +7,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} RevoShop</p>
 
           <p className="text-gray-500">
-            Made with such hardwork!
+            Made with such long hour and dizziness!
           </p>
         </div>
       </div>

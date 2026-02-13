@@ -6,7 +6,7 @@
 
 🚀 **Live Demo:** https://module5-8eoj.vercel.app/  
 📘 **Development Notes (Notion):**  
-https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6
+https://noto.li/NXX6yr
 
 ---
 
@@ -167,7 +167,7 @@ Detailed step-by-step development notes are documented in Notion, covering:
 - Architecture decisions
 
 📘 **Notion:**  
-https://www.notion.so/E-Commerce-Development-Flow-3045445f0c1e80679b4fdd931bdea3d6
+https://noto.li/NXX6yr
 
 ---
 
