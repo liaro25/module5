@@ -1,13 +1,13 @@
 // src/components/Footer.tsx
 export default function Footer() {
   return (
-    <footer className="border-t bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6 py-10 text-sm text-gray-600">
-        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+    <footer className="border-t border-[#BFAEFF]/35 bg-white/10 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-6 py-5 text-sm">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-[#3B2F7F]/80">
           <p>© {new Date().getFullYear()} RevoShop</p>
 
-          <p className="text-gray-500">
-            Made with such long hour and dizziness!
+          <p className="text-[#3B2F7F]/60">
+            Built with caffeine and countless re-renders!
           </p>
         </div>
       </div>

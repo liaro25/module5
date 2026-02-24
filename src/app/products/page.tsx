@@ -12,7 +12,7 @@ export default function ProductsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let alive = true; // prevent setState after unmount
+    let alive = true;
 
     async function fetchProducts() {
       try {
@@ -24,7 +24,7 @@ export default function ProductsPage() {
         });
 
         if (alive) setProducts(res.data);
-      } catch (err) {
+      } catch {
         if (alive) setError("Failed to load products");
       } finally {
         if (alive) setLoading(false);
@@ -32,7 +32,6 @@ export default function ProductsPage() {
     }
 
     fetchProducts();
-
     return () => {
       alive = false;
     };
@@ -40,38 +39,52 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className=" flex items-center justify-center text-gray-600">
-        Loading products...
+      <div className="flex flex-1 items-center justify-center px-4 py-16">
+        <div className="rounded-2xl border border-(--border) bg-white/70 backdrop-blur px-6 py-4 text-stone-600 shadow-[0_10px_30px_rgba(168,150,255,0.12)]">
+          Loading products...
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center text-red-600">
-        {error}
+      <div className="flex flex-1 items-center justify-center px-4 py-16">
+        <div className="rounded-2xl border border-red-200 bg-white/70 backdrop-blur px-6 py-4 text-red-600 shadow-[0_10px_30px_rgba(248,113,113,0.12)]">
+          {error}
+        </div>
       </div>
     );
   }
 
   return (
-    <section className=" bg-gray-50">
-      {/* Page header */}
-      <header className="border-b bg-white">
+    <section className="w-full">
+      {/* Hero header (pastel like homepage) */}
+      <header className="border-b border-[#BFAEFF]/35 bg-white/30 backdrop-blur">
         <div className="mx-auto max-w-7xl px-6 py-10">
-          <h1 className="text-3xl font-extrabold text-gray-900">Products</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Data fetched from Platzi Fake Store API
+          <h1
+            className="text-3xl sm:text-4xl font-extrabold tracking-tight
+            bg-linear-to-r from-[#A896FF] to-[#82E0FF]
+            bg-clip-text text-transparent
+            drop-shadow-[0_4px_12px_rgba(168,150,255,0.25)]"
+          >
+            Products
+          </h1>
+
+          <p className="mt-2 text-sm sm:text-base text-stone-600">
+            Curated essentials for a smarter way to shop
           </p>
         </div>
       </header>
 
       {/* Product grid */}
-      <ProductGrid>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </ProductGrid>
+      <div className="mx-auto max-w-7xl px-6 py-10">
+        <ProductGrid>
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </ProductGrid>
+      </div>
     </section>
   );
 }

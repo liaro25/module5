@@ -12,7 +12,7 @@ jest.mock("@/app/actions/auth", () => ({
 /**
  * Mock useTransition:
  * - isPending: false/true
- * - startTransition: langsung jalankan callback supaya deterministik
+ * - startTransition: run callback
  */
 const mockUseTransition = jest.fn();
 
@@ -35,7 +35,7 @@ describe("LogoutButton", () => {
 
     mockUseTransition.mockReturnValue([
       false,
-      (cb: () => void) => cb(), // langsung execute
+      (cb: () => void) => cb(), // execute
     ]);
 
     render(<LogoutButton />);

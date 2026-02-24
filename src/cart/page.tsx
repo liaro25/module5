@@ -22,7 +22,7 @@ export default function CartPage() {
       {items.length === 0 ? (
         <div className="mt-8 border rounded-xl p-6">
           <p className="mb-4">Your cart is empty.</p>
-          <Link className="underline" href="/">
+          <Link className="underline" href="/products">
             Back to products
           </Link>
         </div>

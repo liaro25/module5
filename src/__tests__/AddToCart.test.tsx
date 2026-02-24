@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AddToCart from "../components/AddToCart";
 
-// mock CartContext sekali di top-level
 const addItemMock = jest.fn();
 
 jest.mock("@/context/CartContext", () => ({
