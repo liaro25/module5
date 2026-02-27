@@ -1,25 +1,6 @@
-import Link from "next/link";
 import { verifySession, getUser } from "@/lib/dal";
 import LogoutButton from "@/app/ui/logout-button";
-
-const primaryButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-white " +
-  "bg-linear-to-r from-[#A896FF] to-[#82E0FF] " +
-  "transition-all duration-300 ease-out " +
-  "shadow-[0_8px_24px_rgba(168,150,255,0.25)] " +
-  "hover:scale-105 hover:shadow-[0_16px_36px_rgba(168,150,255,0.35)] active:scale-95";
-
-const secondaryButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-stone-700 " +
-  "border border-white/40 bg-white/60 backdrop-blur-md " +
-  "transition-all duration-300 ease-out " +
-  "hover:scale-105 hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] active:scale-95";
-
-const dangerButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-white " +
-  "bg-linear-to-r from-[#FF9EB5] to-[#FF6B8A] " +
-  "transition-all duration-300 ease-out " +
-  "hover:scale-105 hover:shadow-[0_12px_28px_rgba(255,107,138,0.35)] active:scale-95";
+import Button from "@/app/ui/button";
 
 export default async function DashboardPage() {
   const session = await verifySession();
@@ -43,15 +24,15 @@ export default async function DashboardPage() {
             Dashboard
           </h1>
 
-          <div className="flex gap-3 flex-wrap">
-            <Link href="/products" className={secondaryButton}>
+          <div className="flex gap-3 flex-wrap items-center">
+            <Button href="/products" variant="secondary" size="md">
               Browse
-            </Link>
+            </Button>
 
             {session.role === "admin" && (
-              <Link href="/admin" className={secondaryButton}>
+              <Button href="/admin" variant="secondary" size="md">
                 Admin
-              </Link>
+              </Button>
             )}
 
             <LogoutButton />
@@ -76,13 +57,13 @@ export default async function DashboardPage() {
                 </p>
               </div>
 
-              <div className="mt-6 flex gap-4">
-                <Link href="/products" className={primaryButton}>
+              <div className="mt-6 flex gap-4 flex-wrap">
+                <Button href="/products" variant="primary">
                   Shop Now
-                </Link>
-                <Link href="/cart" className={secondaryButton}>
+                </Button>
+                <Button href="/cart" variant="secondary">
                   View Cart
-                </Link>
+                </Button>
               </div>
             </div>
 

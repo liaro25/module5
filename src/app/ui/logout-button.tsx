@@ -1,35 +1,34 @@
 "use client";
 
 import { logout } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import Button from "@/app/ui/button";
 
 export default function LogoutButton() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   return (
     <form
       action={() => {
-        startTransition(() => {
-          logout();
+        startTransition(async () => {
+          await logout();
+
+          // ✅ 1) notify header
+          window.dispatchEvent(new Event("auth-changed"));
+
+          // ✅ 2) refresh server + client boundaries
+          router.refresh();
+
+          // ✅ 3) optional: land user on login (prevents staying on protected UI)
+          router.push("/login");
         });
       }}
     >
-      <button
-        type="submit"
-        disabled={isPending}
-        className="
-          px-5 py-2.5 rounded-xl font-semibold text-white
-          bg-linear-to-r from-rose-400 to-pink-500
-          transition-all duration-300 ease-out
-          shadow-[0_6px_16px_rgba(244,114,182,0.35)]
-          hover:scale-105
-          hover:shadow-[0_10px_24px_rgba(244,114,182,0.45)]
-          active:scale-95
-          disabled:opacity-50
-        "
-      >
+      <Button type="submit" disabled={isPending} variant="danger" size="md">
         {isPending ? "Logging out..." : "Logout"}
-      </button>
+      </Button>
     </form>
   );
 }

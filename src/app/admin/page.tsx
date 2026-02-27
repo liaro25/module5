@@ -1,26 +1,6 @@
-import Link from "next/link";
 import { requireRole } from "@/lib/dal";
-import { logout } from "@/app/actions/auth";
 import LogoutButton from "@/app/ui/logout-button";
-
-const primaryButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-white " +
-  "bg-linear-to-r from-[#A896FF] to-[#82E0FF] " +
-  "transition-all duration-300 ease-out " +
-  "shadow-[0_8px_24px_rgba(168,150,255,0.25)] " +
-  "hover:scale-105 hover:shadow-[0_16px_36px_rgba(168,150,255,0.35)] active:scale-95";
-
-const secondaryButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-stone-700 " +
-  "border border-white/40 bg-white/60 backdrop-blur-md " +
-  "transition-all duration-300 ease-out " +
-  "hover:scale-105 hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] active:scale-95";
-
-const dangerButton =
-  "rounded-xl px-5 py-2.5 text-sm font-semibold text-white " +
-  "bg-linear-to-r from-[#FF9EB5] to-[#FF6B8A] " +
-  "transition-all duration-300 ease-out " +
-  "hover:scale-105 hover:shadow-[0_12px_28px_rgba(255,107,138,0.35)] active:scale-95";
+import Button from "@/app/ui/button";
 
 export default async function AdminPage() {
   const session = await requireRole(["admin"]);
@@ -44,9 +24,9 @@ export default async function AdminPage() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link href="/dashboard" className={secondaryButton}>
+            <Button href="/dashboard" variant="secondary" size="md">
               ← Back to Dashboard
-            </Link>
+            </Button>
 
             <LogoutButton />
           </div>
@@ -68,9 +48,9 @@ export default async function AdminPage() {
           </h2>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/admin/products" className={primaryButton}>
+            <Button href="/admin/products" variant="primary" size="md">
               ⚙️ Manage Products
-            </Link>
+            </Button>
           </div>
 
           <div className="mt-8 rounded-2xl border border-white/40 bg-white/50 backdrop-blur p-4 text-sm text-stone-700">

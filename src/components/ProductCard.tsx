@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Product } from "@/types/product";
 import AddToCartButton from "@/components/AddToCart";
+import Button from "@/app/ui/button";
 
 interface ProductCardProps {
   product: Product;
@@ -16,41 +16,52 @@ export default function ProductCard({ product }: ProductCardProps) {
   } = product;
 
   const priceLabel = `$${price.toLocaleString()}`;
-  const imageSrc = images[0];
+  const imageSrc = images?.[0] || "/placeholder.png"; // optional safety
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
-      <div className="relative w-full overflow-hidden bg-gray-100">
+    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/70 backdrop-blur shadow-sm transition-all duration-300 hover:shadow-md">
+      {/* Image */}
+      <div className="relative w-full overflow-hidden bg-white/60">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageSrc}
           alt={title}
           className="aspect-square h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
         />
+
+        {/* Category pill */}
         <div className="absolute top-2 right-2">
-          <span className="bg-white/90 backdrop-blur-sm text-xs font-semibold px-2 py-1 rounded-lg shadow-sm line-clamp-1">
+          <span className="rounded-full border border-white/60 bg-white/80 px-2.5 py-1 text-xs font-semibold text-stone-700 shadow-sm backdrop-blur-sm line-clamp-1">
             {categoryName}
           </span>
         </div>
       </div>
 
+      {/* Content */}
       <div className="flex grow flex-col p-4">
-        <h2 className="min-h-10 text-lg font-bold text-gray-900 line-clamp-2">
+        <h2 className="min-h-10 text-base font-bold text-stone-900 line-clamp-2">
           {title}
         </h2>
 
-        <div className="mt-auto">
-          <p className="text-lg font-bold text-blue-600">{priceLabel}</p>
+        <div className="mt-3">
+          <p className="text-lg font-extrabold bg-linear-to-r from-[#8B7CFF] to-[#5BC0FF] bg-clip-text text-transparent">
+            {priceLabel}
+          </p>
+        </div>
 
-          <div className="flex items-center justify-between gap-3">
-            <Link
-              href={`/products/${id}`}
-              className="mt-2 block w-full rounded-lg bg-gray-100 py-2.5 text-center text-sm font-semibold text-gray-800 transition-all hover:bg-gray-200"
-            >
-              View Detail
-            </Link>
+        {/* Actions */}
+        <div className="mt-auto pt-4 flex items-center gap-3">
+          <Button
+            href={`/products/${id}`}
+            variant="secondary"
+            size="sm"
+            fullWidth
+          >
+            View Detail
+          </Button>
 
-            <AddToCartButton product={product} />
-          </div>
+          <AddToCartButton product={product} />
         </div>
       </div>
     </div>

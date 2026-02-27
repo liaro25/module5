@@ -7,17 +7,28 @@ export async function GET() {
     const user = await getUser();
 
     if (!user) {
-      return NextResponse.json(null, { status: 401 });
+      return NextResponse.json(null, {
+        status: 401,
+        headers: { "Cache-Control": "no-store" },
+      });
     }
 
-    return NextResponse.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-      role: user.role,
-    });
+    return NextResponse.json(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        role: user.role,
+      },
+      {
+        headers: { "Cache-Control": "no-store" },
+      }
+    );
   } catch {
-    return NextResponse.json(null, { status: 401 });
+    return NextResponse.json(null, {
+      status: 401,
+      headers: { "Cache-Control": "no-store" },
+    });
   }
 }

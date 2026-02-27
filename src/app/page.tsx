@@ -1,7 +1,7 @@
-import Link from "next/link";
 import Image from "next/image";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import Button from "@/app/ui/button";
 
 export default async function HomePage() {
   const session = await getSession();
@@ -42,42 +42,17 @@ export default async function HomePage() {
 
         {/* Buttons */}
         <div className="flex gap-4 justify-center flex-wrap mt-7">
-          <Link
-            href="/login"
-            className="px-6 py-3 rounded-xl text-white font-medium
-bg-linear-to-r from-[#A896FF] to-[#82E0FF]
-transition-all duration-300 ease-out
-shadow-[0_6px_16px_rgba(168,150,255,0.25)]
-hover:scale-105
-hover:shadow-[0_12px_28px_rgba(168,150,255,0.35)]
-active:scale-95"
-          >
+          <Button href="/login" variant="primary" size="lg">
             Login
-          </Link>
+          </Button>
 
-          <Link
-            href="/products"
-            className="px-6 py-3 rounded-xl border border-(--border)
-bg-white/70 backdrop-blur
-transition-all duration-300 ease-out
-hover:scale-105
-hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]
-active:scale-95"
-          >
+          <Button href="/products" variant="secondary" size="lg">
             Products
-          </Link>
+          </Button>
 
-          <Link
-            href="/news"
-            className="px-6 py-3 rounded-xl border border-(--border)
-bg-white/70 backdrop-blur
-transition-all duration-300 ease-out
-hover:scale-105
-hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]
-active:scale-95"
-          >
+          <Button href="/news" variant="secondary" size="lg">
             News
-          </Link>
+          </Button>
         </div>
 
         <p className="text-xs sm:text-sm text-stone-500 mt-5">

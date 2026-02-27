@@ -1,10 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { login } from "@/app/actions/auth";
+import Button from "@/app/ui/button";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [state, action, pending] = useActionState(login, undefined);
+
+  useEffect(() => {
+    // kalau login sukses dan halaman tidak redirect otomatis,
+    // ini bantu sync header.
+    if (!pending && state && !state.errors && !state.message) {
+      window.dispatchEvent(new Event("auth-changed"));
+      router.refresh();
+    }
+  }, [pending, state, router]);
 
   return (
     <form action={action} className="space-y-4 max-w-md mx-auto mt-8">
@@ -54,13 +66,9 @@ export default function LoginForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
-      >
+      <Button type="submit" disabled={pending} variant="primary" fullWidth>
         {pending ? "Logging in..." : "Login"}
-      </button>
+      </Button>
 
       <div className="text-sm grid grid-cols-2 gap-8">
         <div>
@@ -73,7 +81,7 @@ export default function LoginForm() {
           <h3 className="font-semibold mb-2 whitespace-nowrap">
             Admin Test Credentials
           </h3>
-          <p className="text-gray-300"> Email: admin@mail.com</p>
+          <p className="text-gray-300">Email: admin@mail.com</p>
           <p className="text-gray-300">Password: admin123</p>
         </div>
       </div>
