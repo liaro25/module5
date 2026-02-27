@@ -47,7 +47,9 @@ describe("AddToCart", () => {
 
     render(<AddToCart product={product as any} withQty />);
 
-    await user.click(screen.getByRole("button", { name: "+" }));
+    await user.click(
+      screen.getByRole("button", { name: /increase quantity/i }),
+    );
 
     expect(screen.getByRole("spinbutton")).toHaveValue(2);
   });
@@ -57,7 +59,9 @@ describe("AddToCart", () => {
 
     render(<AddToCart product={product as any} withQty />);
 
-    await user.click(screen.getByRole("button", { name: "-" }));
+    await user.click(
+      screen.getByRole("button", { name: /decrease quantity/i }),
+    );
 
     expect(screen.getByRole("spinbutton")).toHaveValue(1);
   });
@@ -67,8 +71,12 @@ describe("AddToCart", () => {
 
     render(<AddToCart product={product as any} withQty />);
 
-    await user.click(screen.getByRole("button", { name: "+" }));
-    await user.click(screen.getByRole("button", { name: "+" })); // qty -> 3
+    await user.click(
+      screen.getByRole("button", { name: /increase quantity/i }),
+    );
+    await user.click(
+      screen.getByRole("button", { name: /increase quantity/i }),
+    ); // qty -> 3
 
     await user.click(screen.getByRole("button", { name: /add to cart/i }));
 

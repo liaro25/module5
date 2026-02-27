@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { CartProvider, useCart } from "../context/CartContext";
@@ -36,11 +36,17 @@ function App() {
 
 describe("Cart integration", () => {
   beforeEach(() => {
-    localStorage.clear(); // prevent hydration from older tests
+    localStorage.clear();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    // ✅ do not run pending timers here (it can cause act warnings)
+    jest.useRealTimers();
   });
 
   it("adds item via AddToCart and updates cart totals", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     render(<App />);
 
@@ -56,15 +62,22 @@ describe("Cart integration", () => {
   });
 
   it("adds twice -> quantity merges and totals increase", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     render(<App />);
 
     await user.click(screen.getByRole("button", { name: /add to cart/i }));
+
+    // wait until the temporary "Added ✓" state clears
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+
+    // now the button should be back
     await user.click(screen.getByRole("button", { name: /add to cart/i }));
 
     expect(screen.getByTestId("subtotal")).toHaveTextContent("200");
     expect(screen.getByTestId("totalItems")).toHaveTextContent("2");
-    expect(screen.getByTestId("itemsCount")).toHaveTextContent("1"); // merged line item
+    expect(screen.getByTestId("itemsCount")).toHaveTextContent("1");
   });
 });
