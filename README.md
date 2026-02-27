@@ -29,12 +29,17 @@ The main goal of this project is to showcase **modern Next.js full-stack pattern
 - Product listing page
 - Product detail page using dynamic route segments
 - Server-side data fetching
+- Client-side category filtering
+- Price sorting (Low → High / High → Low)
+- Real-time UI update without page reload
 
 ### Shopping Cart
 
 - Add & remove products from cart
 - Cart state persisted using `localStorage`
 - Cart summary & checkout flow
+- Temporary "Added ✓" feedback to prevent double clicks
+- Integration-tested cart flow
 
 ### Authentication & Authorization
 
@@ -65,6 +70,12 @@ The main goal of this project is to showcase **modern Next.js full-stack pattern
 
 ---
 
+### Incremental Static Regeneration (ISR)
+
+- Implemented on `/news` route
+- Uses revalidation strategy for performance optimization
+- Demonstrates static generation with background regeneration
+
 ## Concepts Demonstrated
 
 This project demonstrates the following **advanced Next.js concepts**:
@@ -78,6 +89,40 @@ This project demonstrates the following **advanced Next.js concepts**:
 - Server Actions
 - Secure authentication flow
 - Error handling best practices
+
+## Testing Strategy
+
+Testing implemented using:
+
+- Jest
+- React Testing Library
+- JSDOM environment
+
+### Unit Tests
+
+Located in:
+`src/__tests__`
+
+Coverage includes:
+
+- Cart reducer logic
+- Authentication utilities
+- API route handlers
+- UI components (AddToCart, LoginForm, ProductCard, LogoutButton)
+- Middleware validation
+
+### Integration Tests
+
+Includes:
+
+- Cart flow integration
+- Route protection validation
+
+Run tests:
+
+```ts
+npm run test
+```
 
 ## Tech Stack
 
@@ -111,7 +156,8 @@ This project demonstrates the following **advanced Next.js concepts**:
 | `/admin/products`           | Protected (Admin) | Product management table                                  |
 | `/admin/products/new`       | Protected (Admin) | Create new product                                        |
 | `/admin/products/[id]/edit` | Protected (Admin) | Edit product                                              |
-| `/faq`                      | Public            | Frequently Asked Questions                                |
+| `/faq`                      | Public            | Frequently Asked Question (demo to show SSG)              |
+| `/news`                     | Public            | News (demo to show ISR page)                              |
 
 ---
 
@@ -243,57 +289,103 @@ fetch(`${baseUrl}/api/products`)
 ## Project Structure
 
 ```txt
-src
-├── app
-│   ├── actions
-│   │   └── auth.ts
-│   ├── admin
+├── README.md
+├── eslint.config.mjs
+├── jest.config.ts
+├── jest.setup.tsx
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── images
+│   │   └── placeholder.svg
+│   ├── next.svg
+│   ├── revoshoplogo.png
+│   ├── vercel.svg
+│   └── window.svg
+├── src
+│   ├── __tests__
+│   │   ├── AddToCart.test.tsx
+│   │   ├── CartContext.test.tsx
+│   │   ├── LoginForm.test.tsx
+│   │   ├── LogoutButton.test.tsx
+│   │   ├── ProductCard.test.tsx
+│   │   ├── api.products.test.ts
+│   │   ├── auth.test.ts
+│   │   ├── cart.integration.test.tsx
+│   │   └── proxy.test.ts
+│   ├── app
+│   │   ├── actions
+│   │   │   └── auth.ts
+│   │   ├── admin
+│   │   │   ├── page.tsx
+│   │   │   └── products
+│   │   │       ├── [id]
+│   │   │       │   └── edit
+│   │   │       │       └── page.tsx
+│   │   │       ├── new
+│   │   │       │   └── page.tsx
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   ├── me
+│   │   │   │   └── route.ts
+│   │   │   ├── news
+│   │   │   │   └── route.ts
+│   │   │   └── products
+│   │   │       ├── [id]
+│   │   │       │   └── route.ts
+│   │   │       └── route.ts
+│   │   ├── cart
+│   │   │   └── page.tsx
+│   │   ├── checkout
+│   │   │   └── page.tsx
+│   │   ├── dashboard
+│   │   │   └── page.tsx
+│   │   ├── faq
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── login
+│   │   │   └── page.tsx
+│   │   ├── news
+│   │   │   └── page.tsx
 │   │   ├── page.tsx
-│   │   └── products
-│   ├── api
-│   │   ├── me
-│   │   └── products
+│   │   ├── products
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   └── ui
+│   │       ├── button.tsx
+│   │       ├── login-form.tsx
+│   │       └── logout-button.tsx
 │   ├── cart
 │   │   └── page.tsx
-│   ├── checkout
-│   │   └── page.tsx
-│   ├── dashboard
-│   │   └── page.tsx
-│   ├── faq
-│   │   └── page.tsx
-│   ├── favicon.ico
-│   ├── globals.css
-│   ├── layout.tsx
-│   ├── login
-│   │   └── page.tsx
-│   ├── page.tsx
-│   ├── products
-│   │   ├── [id]
-│   │   └── page.tsx
-│   └── ui
-│       ├── login-form.tsx
-│       └── logout-button.tsx
-├── cart
-│   └── page.tsx
-├── components
-│   ├── AddToCart.tsx
-│   ├── Footer.tsx
-│   ├── Header.tsx
-│   ├── ProductCard.tsx
-│   ├── ProductGrid.tsx
-│   └── admin
-│       ├── ProductForm.tsx
-│       └── ProductTable.tsx
-├── context
-│   └── CartContext.tsx
-├── lib
-│   ├── api.ts
-│   ├── dal.ts
-│   ├── definitions.ts
-│   └── session.ts
-├── proxy.ts
-└── types
-    └── product.ts
+│   ├── components
+│   │   ├── AddToCart.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── ProductCard.tsx
+│   │   ├── ProductGrid.tsx
+│   │   └── admin
+│   │       ├── ProductForm.tsx
+│   │       └── ProductTable.tsx
+│   ├── context
+│   │   └── CartContext.tsx
+│   ├── lib
+│   │   ├── api.ts
+│   │   ├── dal.ts
+│   │   ├── definitions.ts
+│   │   ├── session.ts
+│   │   └── utils.ts
+│   ├── proxy.ts
+│   └── types
+│       └── product.ts
+└── tsconfig.json
 ```
 
 ## Screenshots
@@ -304,7 +396,9 @@ Landing page with navigation options:
 
 - Browse Products
 - Login
+- News
 - Redirects authenticated users to `/dashboard`
+  ![Homepage](public/images/homepage.png)
 
 ---
 
@@ -312,6 +406,7 @@ Landing page with navigation options:
 
 Displays product grid with dynamic data fetching.  
 Route: `/products`
+![Product Listing](public/images/product.png)
 
 ---
 
@@ -319,30 +414,34 @@ Route: `/products`
 
 Dynamic route using App Router.  
 Route: `/products/[id]`
-
----
+![Product Detail](public/images/productdetail.png)
 
 ### Cart Page
 
 Cart state managed with Context API and persisted via localStorage.
+![Cart Page](public/images/cart.png)
 
 ---
 
 ### Login Page
 
 Authentication using API route and cookie-based session.
+![Login](public/images/login.png)
 
 ---
 
 ### Dashboard
 
 Displays authenticated user information and role-based actions.
+![Dashboard](public/images/user.png)
+![Dashboard](public/images/admin.png)
 
 ---
 
 ### Admin Panel
 
 Protected via middleware and server-side role validation.
+![Admin Panel](public/images/adminpanel.png)
 
 ---
 
@@ -355,6 +454,7 @@ Full CRUD implementation:
 - Delete
 - Server-side fetching
 - Dynamic API routes
+  ![Manage Products](public/images/manage.png)
 
 ---
 
@@ -362,3 +462,17 @@ Full CRUD implementation:
 
 - Server Component fetching product data
 - Client Component form submission
+
+![Edit Product](public/images/edit.png)
+
+---
+
+### News (ISR Page)
+
+![News Page](public/images/news.png)
+
+---
+
+### FAQ Page
+
+![FAQ Page](public/images/faq.png)
