@@ -27,7 +27,7 @@ export default function ProductsPage() {
         setError(null);
 
         const res = await api.get<Product[]>("/products", {
-          params: { offset: 0, limit: 24 },
+          params: { offset: 0, limit: 32 },
         });
 
         if (alive) setProducts(res.data);
